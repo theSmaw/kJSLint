@@ -1,0 +1,5 @@
+DOMWindow = {
+    setCursor : function () {
+        
+    }
+};

@@ -41,14 +41,12 @@ TestCase('testKJSlint.JSLINT', {
     },
     
     'test KJSLINT.JSLINT returns a report string if invalid JS is passed' : function () {
-        var myResult = window.extensions.KJSLINT.JSLINT('a = b');
-        
+        window.extensions.KJSLINT.JSLINT('a = b');
         assertString(window.extensions.KJSLINT.JSLINT.report());
     },
     
     'test KJSLINT.JSLINT returns a data object with errors array if invalid JS is passed' : function () {
-        var myResult = window.extensions.KJSLINT.JSLINT('a = b');
-        
+        window.extensions.KJSLINT.JSLINT('a = b');
         assertArray(window.extensions.KJSLINT.JSLINT.data().errors);
     }
 });

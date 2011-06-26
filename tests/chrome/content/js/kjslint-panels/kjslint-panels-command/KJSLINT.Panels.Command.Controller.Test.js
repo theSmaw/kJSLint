@@ -54,21 +54,47 @@ TestCase('testKJSLINT.Panels.Command.Controller.show', {
         });
         
         assertNoException(function () {
-            window.extensions.KJSLINT.Panels.Command.Controller.show({});
+            window.extensions.KJSLINT.Panels.Command.Controller.show({
+                errors : undefined,
+                functions : []
+            });
         });
     },
     
     'test KJSLINT.Panels.Command.Controller.show calls ko.uilayout.ensureTabShown' : function () {
         window.extensions.KJSLINT.Panels.Command.Controller.init();
-        window.extensions.KJSLINT.Panels.Command.Controller.show({});
+        window.extensions.KJSLINT.Panels.Command.Controller.show({
+            errors : undefined,
+            functions : []
+        });
         assertTrue(ko.uilayout.ensureTabShown.called);
     },
     
     'test KJSLINT.Panels.Command.Controller.show calls ko.uilayout.ensureTabShown with the correct tab id if errors are present' : function () {
         window.extensions.KJSLINT.Panels.Command.Controller.init();
         window.extensions.KJSLINT.Panels.Command.Controller.show({
+            functions : [],
             errors : [1, 2, 3]
         });
         assertEquals('kjslint2_errors_tab', ko.uilayout.ensureTabShown.calledWith);
+    },
+    
+    'test KJSLINT.Panels.Command.Controller.show applies no functions data to the functions tab if there are no functions in JS Lint\'s analysis' : function () {
+        window.extensions.KJSLINT.Panels.Command.Controller.init();
+        window.extensions.KJSLINT.Panels.Command.Controller.show({
+            functions : [{
+            closure : '-',
+            exceptions : '-',
+            global : '-',
+            label : '-',
+            line : '-',
+            name : '-',
+            outer : '-',
+            parameters : '-',
+            unused : '-',
+            variables : '-'
+        }],
+            errors : [1, 2, 3]
+        });
     }
 });

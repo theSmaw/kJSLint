@@ -111,15 +111,18 @@ window.extensions.KJSLINT.KomodoAdaptor = (function () {
      * Focusses the cursor on a line within the file.
      *
      * @public
-     * @param {number} lineNumber Line to jump to
-     * @param {number} [columnNumber] Column to jump to
+     * @param {object} locationToJumpTo Contains line and character number to jump to
+     * @param {number} locationToJumpTo.line Line number to jump to
+     * @param {number} locationToJumpTo.character Character number to jump to
      */
-    function jumpToLine(lineNumber, columnNumber) {
-        var positionPointer,
+    function jumpToLocationInFile(locationToJumpTo) {
+        var lineNumber = locationToJumpTo.line - 1,         // line number is always returned from JS Lint 1 too high
+            positionPointer,
+            columnNumber = locationToJumpTo.character - 1,  // character number is always returned from JS Lint 1 too high
             currentView = ko.views.manager.currentView;
-            
-        if (lineNumber) {
-            if (!columnNumber) {
+
+        if (typeof(lineNumber) !== 'undefined') {
+            if (typeof(columnNumber) === 'undefined') {
                 columnNumber = 0;
             }
             currentView.setFocus();        
@@ -250,7 +253,7 @@ window.extensions.KJSLINT.KomodoAdaptor = (function () {
         getFileAsString         : getFileAsString,
         getFilePath             : getFilePath,
         getPreferencesObject    : getPreferencesObject,
-        jumpToLine              : jumpToLine,
+        jumpToLocationInFile              : jumpToLocationInFile,
         removeEventObservers    : removeEventObservers,
         showCommandPanel        : showCommandPanel,
         updatePreferencesObject : updatePreferencesObject

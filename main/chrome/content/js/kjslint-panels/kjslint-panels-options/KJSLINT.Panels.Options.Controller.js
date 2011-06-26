@@ -142,8 +142,8 @@ window.extensions.KJSLINT.Panels.Options.Controller = (function () {
      * @requires window.extensions.KJSLINT.Panels.Options.Data.load
      */
     function init() {
-        currentFilePath = window.extensions.KJSLINT.Page.Controller.getPathOfCurrentFile();
-        currentFilePreferences = window.extensions.KJSLINT.Panels.Options.Data.getPreferencesForFile(currentFilePath);
+      //  currentFilePath = window.extensions.KJSLINT.Page.Controller.getPathOfCurrentFile();
+      //  currentFilePreferences = window.extensions.KJSLINT.Panels.Options.Data.getPreferencesForFile(currentFilePath);
     }
     
     /**
@@ -317,6 +317,17 @@ window.extensions.KJSLINT.Panels.Options.Controller = (function () {
         window.extensions.KJSLINT.Panels.Options.Data.save();
     }
     
+    /**
+     * Allows other modules to show the Options panel.
+     *
+     * @public
+     * @requires window.extensions.KJSLINT.Panels.Options.View.show
+     * @example window.extensions.KJSLINT.Panels.Options.Controller.show();
+     */
+    function show() {
+        window.extensions.KJSLINT.Panels.Options.View.show();
+    }
+    
     return {
         fileSaved                       : fileSaved,
         fileSwitched                    : fileSwitched,
@@ -327,6 +338,7 @@ window.extensions.KJSLINT.Panels.Options.Controller = (function () {
         getPreferences                  : getPreferences,
         init                            : init,
         saveAllPreferences              : saveAllPreferences,
+        show                            : show,
         storeFilePreferencesToBeSaved   : storeFilePreferencesToBeSaved,
         toggleOptionIfCustomMode        : toggleOptionIfCustomMode,
         toggleMode                      : toggleMode,

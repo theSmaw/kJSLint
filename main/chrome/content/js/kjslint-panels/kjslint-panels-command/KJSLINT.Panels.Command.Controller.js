@@ -143,6 +143,55 @@ window.extensions.KJSLINT.Panels.Command.Controller = (function () {
     }
     
     /**
+     * Focuses on the report panel and fills it with functions data.
+     *
+     * @private
+     * @param {object} functions Functions report object
+     */
+    function handleFunctions(functions) {
+        populateTabPanel(tabPanels.report, functions);
+    }
+    
+    /**
+     * Creates empty fields within the report tab when no functions are found.
+     * @private
+     * @requires window.extensions.KJSLINT.Panels.Command.Tabs.Functions.Data.getNoFunctionsData
+     */
+    function handleNoFunctions() {
+        var noFunctionsData = window.extensions.KJSLINT.Panels.Command.Tabs.Report.Data.getNoFunctionsData();
+        
+        populateTabPanel(tabPanels.report, noFunctionsData);
+    }
+    
+    /**
+     * Presents the functions report data within the Report tab panel.
+     *
+     * @private
+     * @param {array} functionsData Functions report data. Empty array if the file analysed has no functions
+     */
+    function presentFunctions(functionsData) {
+        if (functionsData.length === 0) {
+            handleNoFunctions();
+        } else {
+            handleFunctions(functionsData);
+        }
+    }
+    
+    /**
+     * Presents the errors data within the Errors tab panel.
+     *
+     * @private
+     * @param {array} errorsData Errors data. Empty array if the file analysed has no errors
+     */
+    function presentErrors(errorsData) {
+        if (!errorsData) {
+            handleNoErrors();
+        } else {
+            handleErrors(errorsData);
+        }
+    }
+    
+    /**
      * Show the results of the JSLint analysis
      *
      * @public
@@ -151,14 +200,8 @@ window.extensions.KJSLINT.Panels.Command.Controller = (function () {
     function show(data) {
         removeExistingResults();
         showView();
-        
-        populateTabPanel(tabPanels.report, data.report);
-        
-        if (!data.errors) {
-            handleNoErrors();
-        } else {
-            handleErrors(data.errors);
-        }
+        presentFunctions(data.functions);
+        presentErrors(data.errors);
     }
     
     return {

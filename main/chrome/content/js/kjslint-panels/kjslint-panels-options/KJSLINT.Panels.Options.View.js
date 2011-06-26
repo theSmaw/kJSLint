@@ -21,9 +21,6 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
      * @constant
      */
     CONSTANTS = {
-        events : {
-            
-        },
         headings : {
             mode : {
                 customMode      : 'Custom',
@@ -39,6 +36,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
             optionsContainer    : 'kjslint2_groupbox_custom_options',
             panel               : 'kjslint2_options_panel',
             predefInput         : 'kjslint2_textbox_predef',
+            runButton           : 'kjslint2_button_run',
             tab                 : 'kjslint2_options_tab'
         },
         mode : {
@@ -72,6 +70,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
         elements.modeRadios = document.getElementById(CONSTANTS.ids.modeRadios);
         elements.optionsContainer = document.getElementById(CONSTANTS.ids.optionsContainer);
         elements.predefInput = document.getElementById(CONSTANTS.ids.predefInput);
+        elements.runButton = document.getElementById(CONSTANTS.ids.runButton);
     }
     
     /**
@@ -221,6 +220,33 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
     }
     
     /**
+     * Acts on the Run button being pressed.
+     *
+     * @private
+     * @requires window.extensions.KJSLINT.Page.Controller.run
+     */
+    function runButtonPressed() {
+        window.extensions.KJSLINT.Page.Controller.run();
+    }
+    
+    /**
+     * Observes the Run button on the Options panel.
+     *
+     * @private
+     */
+    function observeRunButton() {
+        var that = this;
+        
+        elements.runButton.addEventListener('click', function () {
+            runButtonPressed.apply(that);
+        }, false);
+        
+        elements.runButton.addEventListener('keyup', function () {
+            runButtonPressed.apply(that);
+        }, false);
+    }
+    
+    /**
      * Observes events on the Options panel.
      *
      * @private
@@ -229,6 +255,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
         observeCheckboxEvents();
         observeModeEvents();
         observeInputEvents();
+        observeRunButton();
     }
     
     /**
@@ -238,7 +265,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
      */
     function applicationLoaded() {
         getElements();
-        initiateController();
+        //initiateController();
         observeEvents();
     }
     
@@ -266,12 +293,12 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
             i, 
             numberOfCheckboxes = elements.checkboxes.length;
         
-        updateModeHeading(CONSTANTS.headings.mode.customMode);      
+        updateModeHeading(CONSTANTS.headings.mode.customMode);
         for (i = 0; i < numberOfCheckboxes; i += 1) {
             currentCheckbox = elements.checkboxes[i];
             currentPreference = currentCheckbox.id;
             currentCheckbox.disabled = false;
-            currentCheckbox.checked = currentPreferences.currentPreference;
+            currentCheckbox.checked = currentPreferences[currentPreference];
             if (defaultPreferences[currentPreference] === true) {
                 currentCheckbox.parentNode.className = '';
             }

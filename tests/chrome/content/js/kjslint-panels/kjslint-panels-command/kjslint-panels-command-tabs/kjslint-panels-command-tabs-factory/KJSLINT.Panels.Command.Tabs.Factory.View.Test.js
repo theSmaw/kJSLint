@@ -140,7 +140,17 @@ TestCase('testKJSLINT.Panels.Command.Tabs.Factory.View.create', {
             returnedObject = window.extensions.KJSLINT.Panels.Command.Tabs.Factory.View.create(controller);
         
         assertNoException(function () {
-            returnedObject.populate([]);
+            returnedObject.populate([{
+                line : '1',
+                character : '1',
+                reason : 'Error',
+                evidence : 'Bad'
+            }, {
+                line : '2',
+                character : '2',
+                reason : 'Errors',
+                evidence : 'Not good'
+            }]);
         });
     },
     
@@ -154,6 +164,74 @@ TestCase('testKJSLINT.Panels.Command.Tabs.Factory.View.create', {
         
         returnedObject.populate(['a', 'b', 'c']);
         assertNotEquals(-1, document.getElementById('kjslint2_errors_tab').getAttribute('label').indexOf('3'));
+    },
+    
+    'test KJSLINT.Panels.Command.Tabs.Factory.View.create returns an object with a populate method that replaces the existing number of results in the tab title' : function () {
+        var controller = window.extensions.KJSLINT.Panels.Command.Tabs.Factory.Controller.create({
+                tabId : 'kjslint2_errors_tab',
+                tabPanelId : 'kjslint2_errors_tabpanel',
+                panelName : 'Errors'
+            }),
+            returnedObject = window.extensions.KJSLINT.Panels.Command.Tabs.Factory.View.create(controller);
+        
+        returnedObject.populate(['a', 'b', 'c']);
+        returnedObject.populate(['a', 'b', 'c']);
+        assertEquals(-1, document.getElementById('kjslint2_errors_tab').getAttribute('label').indexOf('3 3'));
+    },
+    
+    'test KJSLINT.Panels.Command.Tabs.Factory.View.create returns an object with a populate method that puts n+ in the title bar if more than n errors are present' : function () {
+        var controller = window.extensions.KJSLINT.Panels.Command.Tabs.Factory.Controller.create({
+                tabId : 'kjslint2_errors_tab',
+                tabPanelId : 'kjslint2_errors_tabpanel',
+                panelName : 'Errors'
+            }),
+            returnedObject = window.extensions.KJSLINT.Panels.Command.Tabs.Factory.View.create(controller);
+        
+        returnedObject.populate([{
+            line : '1',
+            character : '1',
+            reason : 'Error',
+            evidence : 'Bad'
+        }, {
+            line : '2',
+            character : '2',
+            reason : 'Errors',
+            evidence : 'Not good'
+        }, {
+            line : '2',
+            character : '2',
+            reason : 'Too many errors. (44% scanned).',
+            evidence : 'Not good'
+        }, null]);
+        assertEquals('JSLint errors 2+', document.getElementById('kjslint2_errors_tab').getAttribute('label'));
+    },
+    
+    'test KJSLINT.Panels.Command.Tabs.Factory.View.create returns an object with a populate method that removes the number of results in the tab title if it is existing and there are no results' : function () {
+        var controller = window.extensions.KJSLINT.Panels.Command.Tabs.Factory.Controller.create({
+                tabId : 'kjslint2_errors_tab',
+                tabPanelId : 'kjslint2_errors_tabpanel',
+                panelName : 'Errors'
+            }),
+            returnedObject = window.extensions.KJSLINT.Panels.Command.Tabs.Factory.View.create(controller);
+        
+        returnedObject.populate([{
+            line : '1',
+            character : '1',
+            reason : 'Error',
+            evidence : 'Bad'
+        }, {
+            line : '2',
+            character : '2',
+            reason : 'Errors',
+            evidence : 'Not good'
+        }]);
+        returnedObject.populate([{
+            line : '-',
+            character : '-',
+            reason : 'No errors found',
+            evidence : '-'
+        }]); // what is populate if there are no results?
+        assertEquals('JSLint errors 0', document.getElementById('kjslint2_errors_tab').getAttribute('label'));
     },
     
     'test KJSLINT.Panels.Command.Tabs.Factory.View.create returns an object with a populate method that populates the line number cell in the table' : function () {

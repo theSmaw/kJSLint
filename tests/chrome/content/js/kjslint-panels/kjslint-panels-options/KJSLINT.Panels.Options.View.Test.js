@@ -92,6 +92,63 @@ TestCase('testKJSlint.Panels.Options.View.handleEvent', {
     }
 });
 
+TestCase('testKJSlint.Panels.Options.View.putCheckboxesInCustomMode', {
+    
+    setUp : function () {},
+    
+    tearDown : function () {},
+    
+    'test KJSLINT.Panels.Options.View.putCheckboxesInCustomMode is a function' : function () {
+        assertFunction(window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInCustomMode);
+    },
+    
+    'test KJSLINT.Panels.Options.View.putCheckboxesInCustomMode does not throw an exception' : function () {        
+        
+        assertNoException(function () {
+            window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInCustomMode({});
+        });
+    }
+});
+
+TestCase('testKJSlint.Panels.Options.View.putCheckboxesInDefaultMode', {
+    
+    setUp : function () {
+        setupFunctions.createMarkupForCommandPanel();
+        setupFunctions.createMarkupForOptionsPanel();
+    },
+    
+    tearDown : function () {
+        document.getElementsByTagName('body')[0].innerHTML = '';
+    },
+    
+    'test KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode is a function' : function () {
+        assertFunction(window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode);
+    },
+    
+    'test KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode does not throw an exception' : function () {        
+        
+        assertNoException(function () {
+            window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode({});
+        });
+    },
+    
+    'test KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode checks the checkboxes correctly' : function () {        
+        document.getElementById('eqeqeq').setAttribute('checked', false);
+        debugger
+        window.extensions.KJSLINT.Panels.Options.Controller.fileSwitched({
+            originalTarget : {
+                document : {
+                    file : {
+                        URI : 'testPutInDefaultModeFile'
+                    }
+                }
+            }
+        });
+        window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode({});
+        assertEquals('true', document.getElementById('eqeqeq').getAttribute('checked'));
+    }
+});
+
 TestCase('testKJSlint.Panels.Options.View.updateViewWithCurrentPreferences', {
     
     setUp : function () {
@@ -130,42 +187,6 @@ TestCase('testKJSlint.Panels.Options.View.toggleCheckboxState', {
         
         assertNoException(function () {
             window.extensions.KJSLINT.Panels.Options.View.toggleCheckboxState({});
-        });
-    }
-});
-
-TestCase('testKJSlint.Panels.Options.View.putCheckboxesInCustomMode', {
-    
-    setUp : function () {},
-    
-    tearDown : function () {},
-    
-    'test KJSLINT.Panels.Options.View.putCheckboxesInCustomMode is a function' : function () {
-        assertFunction(window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInCustomMode);
-    },
-    
-    'test KJSLINT.Panels.Options.View.putCheckboxesInCustomMode does not throw an exception' : function () {        
-        
-        assertNoException(function () {
-            window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInCustomMode({});
-        });
-    }
-});
-
-TestCase('testKJSlint.Panels.Options.View.putCheckboxesInDefaultMode', {
-    
-    setUp : function () {},
-    
-    tearDown : function () {},
-    
-    'test KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode is a function' : function () {
-        assertFunction(window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode);
-    },
-    
-    'test KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode does not throw an exception' : function () {        
-        
-        assertNoException(function () {
-            window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode({});
         });
     }
 });

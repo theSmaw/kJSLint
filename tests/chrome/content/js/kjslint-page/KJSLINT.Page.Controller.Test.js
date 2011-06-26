@@ -104,18 +104,46 @@ TestCase('testKJSLINT.Page.Controller.getPathOfCurrentFile', {
     }
 });
 
-TestCase('testKJSLINT.Page.Controller.jumpToLine', {
+TestCase('testKJSLINT.Page.Controller.jumpToLocationInFile', {
     
     setup : function () {},
     
     tearDown : function () {},
     
-    'test KJSLINT.Page.Controller.jumpToLine is a function' : function () {
-        assertFunction(window.extensions.KJSLINT.Page.Controller.jumpToLine);
+    'test KJSLINT.Page.Controller.jumpToLocationInFile is a function' : function () {
+        assertFunction(window.extensions.KJSLINT.Page.Controller.jumpToLocationInFile);
     },
     
-    'test KJSLINT.Page.Controller.jumpToLine does not throw an exception' : function () {
-        assertFunction(window.extensions.KJSLINT.Page.Controller.jumpToLine);
+    'test KJSLINT.Page.Controller.jumpToLocationInFile does not throw an exception' : function () {
+        assertFunction(window.extensions.KJSLINT.Page.Controller.jumpToLocationInFile);
+    }
+});
+
+TestCase('testKJSLINT.Page.Controller.menuOptionsClicked', {
+    
+    setup : function () {
+        ko.uilayout.ensureTabShown.called = undefined;
+        ko.uilayout.ensureTabShown.calledWith = undefined;
+    },
+    
+    tearDown : function () {},
+    
+    'test KJSLINT.Page.Controller.menuOptionsClicked is a function' : function () {
+        assertFunction(window.extensions.KJSLINT.Page.Controller.menuOptionsClicked);
+    },
+    
+    'test KJSLINT.Page.Controller.menuOptionsClicked does not throw an exception' : function () {
+        assertFunction(window.extensions.KJSLINT.Page.Controller.menuOptionsClicked);
+    },
+    
+    'test KJSLINT.Page.Controller.menuOptionsClicked calls ko.uilayout.ensureTabShown' : function () {
+        window.extensions.KJSLINT.Page.Controller.menuOptionsClicked();
+        assertTrue(ko.uilayout.ensureTabShown.called);
+    },
+    
+    'test KJSLINT.Page.Controller.menuOptionsClicked calls ko.uilayout.ensureTabShown with the id of the options panel' : function () {
+        window.extensions.KJSLINT.Page.Controller.menuOptionsClicked();
+        assertEquals('kjslint2_options_tab', ko.uilayout.ensureTabShown.calledWith);
     }
 });
 
@@ -124,6 +152,7 @@ TestCase('testKJSLINT.Page.Controller.run', {
     setUp : function () {
         setupFunctions.createMarkupForCommandPanel();
         setupFunctions.createMarkupForOptionsPanel();
+        ko.run.output.show.called = undefined;
     },
     
     tearDown : function () {
@@ -140,5 +169,10 @@ TestCase('testKJSLINT.Page.Controller.run', {
         assertNoException(function () {
             window.extensions.KJSLINT.Page.Controller.run();
         });
+    },
+    
+    'test KJSLINTS.Page.Controller.run calls ko.run.output.show' : function () {
+        window.extensions.KJSLINT.Page.Controller.run();
+        assertTrue(ko.run.output.show.called);
     }
 });

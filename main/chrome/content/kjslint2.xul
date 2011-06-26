@@ -5,6 +5,7 @@
 	<script type="application/x-javascript" src="chrome://kjslint/content/js/KJSLINT.JSON.js" />
 	<script type="application/x-javascript" src="chrome://kjslint/content/js/KJSLINT.JSLINT.js" />
 	<script type="application/x-javascript" src="chrome://kjslint/content/js/KJSLINT.JSLINTAdaptor.js" />
+	<script type="application/x-javascript" src="chrome://kjslint/content/js/KJSLINT.KomodoAdaptor.js" />
 	<script type="application/x-javascript" src="chrome://kjslint/content/js/kjslint-page/KJSLINT.Page.Controller.js" />
 	<script type="application/x-javascript" src="chrome://kjslint/content/js/kjslint-page/KJSLINT.Page.View.js" />
 	<script type="application/x-javascript" src="chrome://kjslint/content/js/kjslint-panels/kjslint-panels-command/KJSLINT.Panels.Command.Controller.js" />
@@ -17,13 +18,13 @@
 	<script type="application/x-javascript" src="chrome://kjslint/content/js/kjslint-panels/kjslint-panels-options/KJSLINT.Panels.Options.Data.js" />
 	<script type="application/x-javascript" src="chrome://kjslint/content/js/kjslint-panels/kjslint-panels-options/KJSLINT.Panels.Options.View.js" />
 	<broadcasterset id="broadcasterset_global">
-		<broadcaster id="cmd_kjslint2" key="key_cmd_kjslint" desc="Tools: Run JS Lint" oncommand="window.extensions.KJSLINT.Core.run();" />
+		<broadcaster id="cmd_kjslint2" key="key_cmd_kjslint" desc="Tools: Run JS Lint" oncommand="window.extensions.KJSLINT.Page.Controller.run();" />
 	</broadcasterset>
 	<menupopup id="popup_tools">
 		<menu id="kjslint2-menu" label="JS Lint">
 			<menupopup id="kjslint2-popup">
-				<menuitem id="menu_jslint2_run" oncommand="window.extensions.KJSLINT.Core.run();" label="Run" class="menu-iconic-wide" observes="cmd_kjslint" />
-				<menuitem id="menu_jslint2_options" oncommand="window.extensions.KJSLINT.Core.viewShowOptions();" label="Options" />
+				<menuitem id="menu_jslint2_run" label="Run" class="menu-iconic-wide" observes="cmd_kjslint" oncommand="window.extensions.KJSLINT.Page.Controller.run();" />
+				<menuitem id="menu_jslint2_options" label="Options" oncommand="window.extensions.KJSLINT.Page.Controller.menuOptionsClicked();" />
 			</menupopup>
 		</menu>
 	</menupopup>
@@ -194,7 +195,7 @@
 					</vbox>
 				</groupbox>
 				<stack>
-				<button id="mine" autostretch="never" left="0" top="5" label="Run JS Lint" oncommand="window.extensions.KJSLINT.Core.run();" width="100" minwidth="0" />
+				<button id="kjslint2_button_run" autostretch="never" left="0" top="5" label="Run JS Lint" width="100" minwidth="0" />
 				</stack>
 			</vbox>
 		</tabpanel>

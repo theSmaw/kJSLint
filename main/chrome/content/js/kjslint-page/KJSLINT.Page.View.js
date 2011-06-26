@@ -1,5 +1,4 @@
 /*global alert, Components, ko, window */
-alert('KJSLINT.Page.View');
 window.extensions = window.extensions || {};
 window.extensions.KJSLINT = window.extensions.KJSLINT || {};
 
@@ -20,11 +19,10 @@ window.extensions.KJSLINT.Page = window.extensions.KJSLINT.Page || {};
  * @requires window.extensions.KJSLINT.Page.Controller
  */
 window.extensions.KJSLINT.Page.View = (function () {
-    
-    /**
-     * @constant
-     */
-    var CONSTANTS = {
+    var CONSTANTS,
+        elements = {};
+        
+    CONSTANTS = {
         cursorNames : {
             defaultCursor       : 'default',
             waitingCursor       : 'wait'
@@ -107,7 +105,6 @@ window.extensions.KJSLINT.Page.View = (function () {
      * @public
      */
     function applicationLoaded() {
-        alert('applicationLoaded');
         observeEvents();
     }
     
@@ -115,12 +112,13 @@ window.extensions.KJSLINT.Page.View = (function () {
      * Moves the file and its focus to the specified line.
      *
      * @public
-     * @param {number} lineNumber Line to jump to
-     * @param {number} [columnNumber] Column to jump to
-     * @requires window.extensions.KJSLINT.KomodoAdaptor.jumpToLine
+     * @param {object} locationToJumpTo Contains line and character number to jump to
+     * @param {number} locationToJumpTo.line Line number to jump to
+     * @param {number} locationToJumpTo.character Character number to jump to
+     * @requires window.extensions.KJSLINT.KomodoAdaptor.jumpToLocationInFile
      */
-    function jumpToLine(lineNumber, columnNumber) {
-        window.extensions.KJSLINT.KomodoAdaptor.jumpToLine(lineNumber, columnNumber);        
+    function jumpToLocationInFile(locationToJumpTo) {
+        window.extensions.KJSLINT.KomodoAdaptor.jumpToLocationInFile(locationToJumpTo);        
     }
     
     /**
@@ -143,7 +141,7 @@ window.extensions.KJSLINT.Page.View = (function () {
     
     return {
         handleEvent         : applicationLoaded, // this automatically gets called as a result of passing the window.extensions.KJSLINT.Page.View object to the eventlistener
-        jumpToLine          : jumpToLine,
+        jumpToLocationInFile          : jumpToLocationInFile,
         setDefaultCursor    : setDefaultCursor,
         setWaitingCursor    : setWaitingCursor
     };

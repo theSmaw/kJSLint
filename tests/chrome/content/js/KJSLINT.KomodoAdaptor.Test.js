@@ -45,7 +45,7 @@ TestCase('testKJSlint.KomodoAdaptor.ensureTabShown', {
     }
 });
 
-TestCase('testKJSlint.KomodoAdaptor.jumpToLine', {
+TestCase('testKJSlint.KomodoAdaptor.jumpToLocationInFile', {
     
     setup : function () {
         ko.views.manager.currentView.scimoz.ensureVisibleEnforcePolicy.called = undefined;
@@ -65,42 +65,66 @@ TestCase('testKJSlint.KomodoAdaptor.jumpToLine', {
         ko.views.manager.currentView.setFocus.called = undefined;
     },
     
-    'test KJSLINT.KomodoAdaptor.jumpToLine is a function' : function () {
-        assertFunction(window.extensions.KJSLINT.KomodoAdaptor.jumpToLine);
+    'test KJSLINT.KomodoAdaptor.jumpToLocationInFile is a function' : function () {
+        assertFunction(window.extensions.KJSLINT.KomodoAdaptor.jumpToLocationInFile);
     },
     
-    'test KJSLINT.KomodoAdaptor.jumpToLine does not throw an exception' : function () {
-        assertNoException(window.extensions.KJSLINT.KomodoAdaptor.jumpToLine);
+    'test KJSLINT.KomodoAdaptor.jumpToLocationInFile does not throw an exception' : function () {
+        
+        assertNoException(function () {
+            window.extensions.KJSLINT.KomodoAdaptor.jumpToLocationInFile({
+                character : 2,
+                line : 1
+            });
+        });
     },
     
-    'test KJSLINT.KomodoAdaptor.jumpToLine calls ko.views.manager.currentView.setFocus' : function () {
-        window.extensions.KJSLINT.KomodoAdaptor.jumpToLine(1);
+    'test KJSLINT.KomodoAdaptor.jumpToLocationInFile calls ko.views.manager.currentView.setFocus' : function () {
+        window.extensions.KJSLINT.KomodoAdaptor.jumpToLocationInFile({
+            character : 2,
+            line : 1
+        });
         assertTrue(ko.views.manager.currentView.setFocus.called);
     },
     
-    'test KJSLINT.KomodoAdaptor.jumpToLine calls ko.views.manager.currentView.scimoz.positionAtColumn' : function () {
-        window.extensions.KJSLINT.KomodoAdaptor.jumpToLine(1);
+    'test KJSLINT.KomodoAdaptor.jumpToLocationInFile calls ko.views.manager.currentView.scimoz.positionAtColumn' : function () {
+        window.extensions.KJSLINT.KomodoAdaptor.jumpToLocationInFile({
+            character : 2,
+            line : 1
+        });
         assertTrue(ko.views.manager.currentView.scimoz.positionAtColumn.called);
     },
     
-    'test KJSLINT.KomodoAdaptor.jumpToLine calls ko.views.manager.currentView.scimoz.positionAtColumn with the correct line number' : function () {
-        window.extensions.KJSLINT.KomodoAdaptor.jumpToLine(5);
-        assertEquals(5, ko.views.manager.currentView.scimoz.positionAtColumn.calledWith);
+    'test KJSLINT.KomodoAdaptor.jumpToLocationInFile calls ko.views.manager.currentView.scimoz.positionAtColumn with the correct line number' : function () {
+        window.extensions.KJSLINT.KomodoAdaptor.jumpToLocationInFile({
+            character : 2,
+            line : 5
+        });
+        assertEquals(4, ko.views.manager.currentView.scimoz.positionAtColumn.calledWith);
     },
     
-    'test KJSLINT.KomodoAdaptor.jumpToLine calls ko.views.manager.currentView.scimoz.gotoPos' : function () {
-        window.extensions.KJSLINT.KomodoAdaptor.jumpToLine(1);
+    'test KJSLINT.KomodoAdaptor.jumpToLocationInFile calls ko.views.manager.currentView.scimoz.gotoPos' : function () {
+        window.extensions.KJSLINT.KomodoAdaptor.jumpToLocationInFile({
+            character : 2,
+            line : 1
+        });
         assertTrue(ko.views.manager.currentView.scimoz.gotoPos.called);
     },
     
-    'test KJSLINT.KomodoAdaptor.jumpToLine calls ko.views.manager.currentView.scimoz.ensureVisibleEnforcePolicy' : function () {
-        window.extensions.KJSLINT.KomodoAdaptor.jumpToLine(1);
+    'test KJSLINT.KomodoAdaptor.jumpToLocationInFile calls ko.views.manager.currentView.scimoz.ensureVisibleEnforcePolicy' : function () {
+        window.extensions.KJSLINT.KomodoAdaptor.jumpToLocationInFile({
+            character : 2,
+            line : 1
+        });
         assertTrue(ko.views.manager.currentView.scimoz.ensureVisibleEnforcePolicy.called);
     },
     
-    'test KJSLINT.KomodoAdaptor.jumpToLine calls ko.views.manager.currentView.scimoz.ensureVisibleEnforcePolicy with the correct line number' : function () {
-        window.extensions.KJSLINT.KomodoAdaptor.jumpToLine(6);
-        assertEquals(6, ko.views.manager.currentView.scimoz.ensureVisibleEnforcePolicy.calledWith);
+    'test KJSLINT.KomodoAdaptor.jumpToLocationInFile calls ko.views.manager.currentView.scimoz.ensureVisibleEnforcePolicy with the correct line number' : function () {
+        window.extensions.KJSLINT.KomodoAdaptor.jumpToLocationInFile({
+            character : 2,
+            line : 6
+        });
+        assertEquals(5, ko.views.manager.currentView.scimoz.ensureVisibleEnforcePolicy.calledWith);
     }
 });
 

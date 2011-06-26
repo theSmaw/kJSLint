@@ -80,13 +80,32 @@ window.extensions.KJSLINT.Panels.Command.Tabs.Factory.View = (function () {
      * Updates the number in the tab title to reflect the number of results.
      *
      * @private
-     * @param {number} numberOfResults Number of results
+     * @param {array} data Data returned from the JSLint analysis
      */
-    CommandPanelTabView.prototype.updateNumberInTabTitle = function (numberOfResults) {        
-        if (!this.orginalTabLabel) {
+    CommandPanelTabView.prototype.updateNumberInTabTitle = function (data) {
+        var numberOfResults = data.length,
+            numberOfResultsText;
+        
+        if (typeof(this.originalTabLabel) === 'undefined') {
             this.originalTabLabel = this.elements.tab.getAttribute('label');
         }
-        this.elements.tab.setAttribute('label', [this.originalTabLabel, ' ', numberOfResults].join(''));
+        if (data[0].line === '-') {
+            numberOfResultsText = '0';
+        }  
+        
+        // data[numberOfResults - 1] doesn't exist when JS Lint stops and cannot continueted as a result item by JSLint
+        else if (data[numberOfResults - 1] === null) {
+                 
+            // reduce number of results number by 2 because Stopping cannot continue text is counted as a result, as is the null value
+            numberOfResults = numberOfResults - 2;
+            numberOfResultsText = numberOfResults + '+';
+        }
+        
+        else {
+            numberOfResultsText = numberOfResults;
+        }
+        
+        this.elements.tab.setAttribute('label', [this.originalTabLabel, ' ', numberOfResultsText].join(''));
     };
     
     /**
@@ -131,25 +150,35 @@ window.extensions.KJSLINT.Panels.Command.Tabs.Factory.View = (function () {
     };
     
     /**
+     * Retrives the location of the line to jump to from where it is stored on the treeitem.
+     *
+     * @private
+     * @param {object} tree The tab panel tree
+     * @returns {object} line and character of the item to jump to
+     */
+    CommandPanelTabView.prototype.retrieveLocationToJumpTo = function (tree) {
+        var clickedTreeitem = tree.view.getItemAtIndex(tree.currentIndex),
+            locationToJumpTo = {
+                line : clickedTreeitem.getAttribute('line'),
+                character : clickedTreeitem.getAttribute('character')
+            };
+            
+        return locationToJumpTo;
+    }
+    
+    /**
      * Called when an output row is double-clicked or enter pressed on it.
      *
      * @private
      * @param {object} e Event object associated with the interaction with the table row
      */
     CommandPanelTabView.prototype.lineClicked = function (e) {
-        var columnNumber,
-            lineNumber,
+        var locationToJumpTo,
             tree = this.elements.tree;
             
         if (!e.keycode || (e.keycode === 13)) {
-            
-            // I NEED TO FIGURE OUT HOW TO DO THIS WITHOUT THE ID OF THE COLUMN (e.g column number
-            
-            // I need to subtract 1
-            lineNumber = tree.view.getCellText(tree.currentIndex, tree.columns.getNamedColumn('kjslint2_errors_tree_line')) - 1;
-            columnNumber = tree.view.getCellText(tree.currentIndex, tree.columns.getNamedColumn('kjslint2_errors_tree_char')) - 1;
-        
-            window.extensions.KJSLINT.Page.Controller.jumpToLine(lineNumber, columnNumber);
+            locationToJumpTo = this.retrieveLocationToJumpTo(tree);
+            window.extensions.KJSLINT.Page.Controller.jumpToLocationInFile(locationToJumpTo);
         }
     };
     
@@ -157,18 +186,36 @@ window.extensions.KJSLINT.Panels.Command.Tabs.Factory.View = (function () {
      * Allows double clicking or pressing enter on a row to jump the file view to the correct line number in the file.
      *
      * @private
-     * @requires window.extensions.KJSLINT.Page.Controller.jumpToLine
+     * @requires window.extensions.KJSLINT.Page.Controller.jumpToLocationInFile
      */
     CommandPanelTabView.prototype.enableClickToJump = function () {
         var that = this;
-        
-        // I WILL NEED TO BIND THE CONTEXT ON THESE EVENT FUNCTION CALLS!
-        
-        this.elements.treechildren.addEventListener('dblclick', that.lineClicked, false);
+               
+        this.elements.treechildren.addEventListener('dblclick', function () {
+            that.lineClicked.apply(that, arguments);
+        }, false);
         
         // keyboard events need to be on the tree rather than the treechildren element
-        this.elements.tree.addEventListener('keyup', that.lineClicked, false);
+        this.elements.tree.addEventListener('keyup', function () {
+            that.lineClicked.apply(that, arguments);
+        }, false);
     };
+    
+    /**
+     * Stores the line and character numbers as attributes of the treeitem.
+     * Previously, char and row values were queried from their table cells.
+     * This can only be done using the ID of the table column, so this isn't possible within a generic class for tab views
+     *
+     * @private
+     * @param {object} treeitem The tree item to store the data on
+     * @param {object} locationData Report data for the line in the code
+     * @param {number} locationData.line Line number of the report item
+     * @param {number} [locationData.character] Character number of the location of the error
+     */
+    CommandPanelTabView.prototype.makeErrorLocationAccessible = function (treeitem, locationData) {
+        treeitem.setAttribute('line', locationData.line);
+        treeitem.setAttribute('character', locationData.character);
+    }
     
     /**
      * Populates a row of the panel's table with the results of JSLint's analysis.
@@ -190,6 +237,7 @@ window.extensions.KJSLINT.Panels.Command.Tabs.Factory.View = (function () {
             cellData = lineData[cellLabel];
             this.populateCell(cellData, treerow);
         }
+        this.makeErrorLocationAccessible(treeitem, lineData);        
         treeitem.appendChild(treerow);
         this.elements.treechildren.appendChild(treeitem);
     };    
@@ -217,13 +265,11 @@ window.extensions.KJSLINT.Panels.Command.Tabs.Factory.View = (function () {
     /**
      * Populates the tab panel with data returned from the JSLint analysis.
      *
-     * @param {array} Data returned from the JSLint analysis
+     * @param {array} data Data returned from the JSLint analysis
      * @public
      */
-    CommandPanelTabView.prototype.populate = function (data) {
-        var numberOfResults = data.length;
-            
-        this.updateNumberInTabTitle(numberOfResults);
+    CommandPanelTabView.prototype.populate = function (data) {        
+        this.updateNumberInTabTitle(data);
         this.populateTable(data);
     };
     

@@ -85,7 +85,8 @@ window.extensions.KJSLINT.Page.Controller = (function () {
     /**
      * Runs JSLint analysis on the current file, based on the options set in the panel.
      * Results are output to tabs in the command panel.
-     * Currently fired from a DOM Level 0 event attached to #menu_jslint2_run element in kjslint2.xul.
+     * Called from an oncommand attribute on the menu item in the XUL.
+     * It appears that we can't bind addEventListner to these menu elements.
      *
      * @public
      * @requires window.extensions.KJSLINT.JSLINTAdaptor.runAndReturnResults
@@ -94,6 +95,7 @@ window.extensions.KJSLINT.Page.Controller = (function () {
      * @requires window.extensions.KJSLINT.Page.View.setDefaultCursor
      * @requires window.extensions.KJSLINT.Page.View.setWaitingCursor
      * @requires window.extensions.KJSLINT.Panels.Command.Controller.show
+     * @example window.extensions.KJSLINT.Page.Controller.run();
      */ 
     function run() {
         var data,
@@ -169,12 +171,13 @@ window.extensions.KJSLINT.Page.Controller = (function () {
      * Moves the file and its focus to the specified line.
      *
      * @public
-     * @param {number} lineNumber Line to jump to
-     * @param {number} [columnNumber] Column to jump to
-     * @requires window.extensions.KJSLINT.Page.View.jumpToLine
+     * @param {object} locationToJumpTo Contains line and character number to jump to
+     * @param {number} locationToJumpTo.line Line number to jump to
+     * @param {number} locationToJumpTo.character Character number to jump to
+     * @requires window.extensions.KJSLINT.Page.View.jumpToLocationInFile
      */
-    function jumpToLine(lineNumber, columnNumber) {
-        window.extensions.KJSLINT.Page.View.jumpToLine(lineNumber, columnNumber);        
+    function jumpToLocationInFile(locationToJumpTo) {
+        window.extensions.KJSLINT.Page.View.jumpToLocationInFile(locationToJumpTo);        
     }
     
     /**
@@ -187,12 +190,25 @@ window.extensions.KJSLINT.Page.Controller = (function () {
         window.extensions.KJSLINT.Panels.Options.Controller.storeFilePreferencesToBeSaved();
     }
     
+    /**
+     * Handles the user selection JSLint Options from the main menu.
+     * Called from an oncommand attribute on the menu item in the XUL.
+     * It appears that we can't bind addEventListner to these menu elements.
+     *
+     * @public
+     * @requires window.extensions.KJSLINT.Panels.Options.Controller.show
+     */
+    function menuOptionsClicked() {
+        window.extensions.KJSLINT.Panels.Options.Controller.show();
+    }
+    
     return {
         applicationClosing      : applicationClosing,
         fileClosed              : fileClosed,
         fileSaved               : fileSaved,
         fileSwitched            : fileSwitched,
-        jumpToLine              : jumpToLine,
+        jumpToLocationInFile              : jumpToLocationInFile,
+        menuOptionsClicked      : menuOptionsClicked,
         getPathOfCurrentFile    : getPathOfCurrentFile,
         run                     : run
     };

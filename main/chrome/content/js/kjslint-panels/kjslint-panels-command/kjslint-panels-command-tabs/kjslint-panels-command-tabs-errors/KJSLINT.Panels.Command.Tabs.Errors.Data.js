@@ -29,10 +29,6 @@ window.extensions.KJSLINT.Panels.Command.Tabs.Errors = window.extensions.KJSLINT
  * @namespace
  */
 window.extensions.KJSLINT.Panels.Command.Tabs.Errors.Data = (function () {
-    
-    /**
-     * @constant
-     */
     var CONSTANTS = {
         noErrorsData : [{
             line        : '-',

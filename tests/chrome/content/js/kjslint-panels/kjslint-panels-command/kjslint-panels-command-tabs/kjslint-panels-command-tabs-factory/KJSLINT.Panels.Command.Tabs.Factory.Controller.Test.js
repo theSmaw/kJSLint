@@ -108,7 +108,17 @@ TestCase('testKJSLINT.Panels.Command.Tabs.Factory.Controller.create', {
             });
         
         assertNoException(function () {
-            returnedObject.populate([]);
+            returnedObject.populate([{
+                line : '1',
+                character : '1',
+                reason : 'Error',
+                evidence : 'Bad'
+            }, {
+                line : '2',
+                character : '2',
+                reason : 'Errors',
+                evidence : 'Not good'
+            }]);
         });
     },
     

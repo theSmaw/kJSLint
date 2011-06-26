@@ -228,6 +228,34 @@ TestCase('testKJSlint.Panels.Options.Controller.saveAllPreferences', {
     }
 });
 
+TestCase('testKJSLINT.Panels.Options.Controller.show', {
+    
+    setup : function () {
+        ko.uilayout.ensureTabShown.called = undefined;
+        ko.uilayout.ensureTabShown.calledWith = undefined;
+    },
+    
+    tearDown : function () {},
+    
+    'test KJSLINT.Panels.Options.Controller.show is a function' : function () {
+        assertFunction(window.extensions.KJSLINT.Panels.Options.Controller.show);
+    },
+    
+    'test KJSLINT.Panels.Options.Controller.show does not throw an exception' : function () {
+        assertFunction(window.extensions.KJSLINT.Panels.Options.Controller.show);
+    },
+    
+    'test KJSLINT.Panels.Options.Controller.show calls ko.uilayout.ensureTabShown' : function () {
+        window.extensions.KJSLINT.Panels.Options.Controller.show();
+        assertTrue(ko.uilayout.ensureTabShown.called);
+    },
+    
+    'test KJSLINT.Panels.Options.Controller.show calls ko.uilayout.ensureTabShown with the id of the options panel' : function () {
+        window.extensions.KJSLINT.Panels.Options.Controller.show();
+        assertEquals('kjslint2_options_tab', ko.uilayout.ensureTabShown.calledWith);
+    }
+});
+
 TestCase('testKJSlint.Panels.Options.Controller.storeFilePreferencesToBeSaved', {
     
     setup : function () {},

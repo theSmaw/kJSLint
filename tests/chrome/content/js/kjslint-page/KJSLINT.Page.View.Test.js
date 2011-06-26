@@ -1,18 +1,18 @@
 /*global assertEquals, assertFunction, assertNoException, assertTrue, TestCase, window*/
 
 
-TestCase('testKJSLINT.Page.View.jumpToLine', {
+TestCase('testKJSLINT.Page.View.jumpToLocationInFile', {
     
-    setup : function () {},
+    setUp : function () {},
     
     tearDown : function () {},
     
-    'test KJSLINT.Page.View.jumpToLine is a function' : function () {
-        assertFunction(window.extensions.KJSLINT.Page.View.jumpToLine);
+    'test KJSLINT.Page.View.jumpToLocationInFile is a function' : function () {
+        assertFunction(window.extensions.KJSLINT.Page.View.jumpToLocationInFile);
     },
     
-    'test KJSLINT.Page.View.jumpToLine does not throw an exception' : function () {
-        assertFunction(window.extensions.KJSLINT.Page.View.jumpToLine);
+    'test KJSLINT.Page.View.jumpToLocationInFile does not throw an exception' : function () {
+        assertFunction(window.extensions.KJSLINT.Page.View.jumpToLocationInFile);
     }
     
     // PROBABLY BENEFIT FROM MORE UNIT TESTS HERE
@@ -20,7 +20,9 @@ TestCase('testKJSLINT.Page.View.jumpToLine', {
 
 TestCase('testKJSLINT.Page.View.handleEvent', {
     
-    setup : function () {},
+    setUp : function () {
+        setupFunctions.createMarkupForMainMenu();
+    },
     
     tearDown : function () {},
     
@@ -38,7 +40,7 @@ TestCase('testKJSLINT.Page.View.handleEvent', {
 
 TestCase('testKJSLINT.Page.View.setDefaultCursor', {
     
-    setup : function () {
+    setUp : function () {
         window.setCursor.called = undefined;
         window.setCursor.calledWith = undefined;
     },
@@ -72,7 +74,7 @@ TestCase('testKJSLINT.Page.View.setDefaultCursor', {
 
 TestCase('testKJSLINT.Page.View.setWaitingCursor', {
     
-    setup : function () {
+    setUp : function () {
         window.setCursor.called = undefined;
         window.setCursor.calledWith = undefined;
     },

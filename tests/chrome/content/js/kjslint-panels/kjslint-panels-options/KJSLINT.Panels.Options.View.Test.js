@@ -133,8 +133,8 @@ TestCase('testKJSlint.Panels.Options.View.putCheckboxesInDefaultMode', {
     },
     
     'test KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode checks the checkboxes correctly' : function () {        
-        document.getElementById('eqeqeq').setAttribute('checked', false);
-        debugger
+        document.getElementById('eqeqeq').checked = 'false';
+        window.extensions.KJSLINT.Panels.Options.View.handleEvent();
         window.extensions.KJSLINT.Panels.Options.Controller.fileSwitched({
             originalTarget : {
                 document : {
@@ -144,8 +144,8 @@ TestCase('testKJSlint.Panels.Options.View.putCheckboxesInDefaultMode', {
                 }
             }
         });
-        window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode({});
-        assertEquals('true', document.getElementById('eqeqeq').getAttribute('checked'));
+        window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode();
+        assertTrue(document.getElementById('eqeqeq').checked);
     }
 });
 

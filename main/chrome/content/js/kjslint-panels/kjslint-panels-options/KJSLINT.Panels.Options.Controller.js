@@ -136,17 +136,6 @@ window.extensions.KJSLINT.Panels.Options.Controller = (function () {
     }
     
     /**
-     * Initializes the Options panel
-     *
-     * @public
-     * @requires window.extensions.KJSLINT.Panels.Options.Data.load
-     */
-    function init() {
-      //  currentFilePath = window.extensions.KJSLINT.Page.Controller.getPathOfCurrentFile();
-      //  currentFilePreferences = window.extensions.KJSLINT.Panels.Options.Data.getPreferencesForFile(currentFilePath);
-    }
-    
-    /**
      * Finds the checkbox associated with a label.
      *
      * @private
@@ -336,7 +325,6 @@ window.extensions.KJSLINT.Panels.Options.Controller = (function () {
         getInputValues                  : getInputValues,
         getMode                         : getMode,
         getPreferences                  : getPreferences,
-        init                            : init,
         saveAllPreferences              : saveAllPreferences,
         show                            : show,
         storeFilePreferencesToBeSaved   : storeFilePreferencesToBeSaved,

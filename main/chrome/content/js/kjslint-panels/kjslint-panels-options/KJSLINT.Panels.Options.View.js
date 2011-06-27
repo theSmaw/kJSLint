@@ -265,7 +265,6 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
      */
     function applicationLoaded() {
         getElements();
-        //initiateController();
         observeEvents();
     }
     
@@ -324,7 +323,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
         updateModeHeading(CONSTANTS.headings.mode.defaultMode); 
         for (i = 0; i < numberOfCheckboxes; i += 1) {
             currentCheckbox = elements.checkboxes[i];
-            currentPreference = currentCheckbox.id;
+            currentPreference = currentCheckbox.id;               
             currentCheckbox.checked = defaultPreferences[currentPreference];
             
             
@@ -334,7 +333,6 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
             if (defaultPreferences[currentPreference] === false) {
                 currentCheckbox.parentNode.className = 'hidden';
             }
-            
             currentCheckbox.disabled = true;
         }
     }

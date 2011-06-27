@@ -195,21 +195,6 @@ TestCase('testKJSlint.Panels.Options.Controller.getPreferences', {
     }
 });
 
-TestCase('testKJSlint.Panels.Options.Controller.init', {
-    
-    setup : function () {},
-    
-    tearDown : function () {},
-    
-    'test KJSLINT.Panels.Options.Controller.init is a function' : function () {
-        assertFunction(window.extensions.KJSLINT.Panels.Options.Controller.init);
-    },
-    
-    'test KJSLINT.Panels.Options.Controller.init does not throw an exception' : function () {
-        assertNoException(window.extensions.KJSLINT.Panels.Options.Controller.init);
-    }  
-});
-
 TestCase('testKJSlint.Panels.Options.Controller.saveAllPreferences', {
     
     setup : function () {},

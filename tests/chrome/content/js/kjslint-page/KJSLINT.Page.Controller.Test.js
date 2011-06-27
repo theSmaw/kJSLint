@@ -54,6 +54,7 @@ TestCase('testKJSLINT.Page.Controller.fileSaved', {
     
     'test KJSLINT.Page.Controller.fileSaved does not throw an exception' : function () {
         window.extensions.KJSLINT.Panels.Options.View.handleEvent();
+        window.extensions.KJSLINT.Panels.Options.Controller.fileSwitched();
         
         assertNoException(function () {
             window.extensions.KJSLINT.Page.Controller.fileSaved();

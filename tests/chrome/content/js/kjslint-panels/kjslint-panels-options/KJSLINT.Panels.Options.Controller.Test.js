@@ -1,4 +1,4 @@
-/*global assertEquals, assertFalse, assertFunction, assertNoException, assertObject, assertString, assertTrue, setupFunctions, TestCase, window*/
+/*global assertEquals, assertFalse, assertFunction, assertNoException, assertObject, assertString, assertTrue, ko, setupFunctions, TestCase, window*/
 
 TestCase('testKJSLINT.Panels.Options.Controller.fileSaved', {
     

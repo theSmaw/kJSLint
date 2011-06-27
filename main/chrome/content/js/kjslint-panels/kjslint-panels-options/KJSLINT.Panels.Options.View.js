@@ -46,16 +46,6 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
     };
     
     /**
-     * Initializes the controller for the options panel.
-     *
-     * @private
-     * @requires KJSLINT.Panels.Options.Controller.init
-     */
-    function initiateController() {
-        window.extensions.KJSLINT.Panels.Options.Controller.init();
-    }
-    
-    /**
      * Gets references to required DOM elements.
      *
      * @private
@@ -298,7 +288,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
             currentPreference = currentCheckbox.id;
             currentCheckbox.disabled = false;
             currentCheckbox.checked = currentPreferences[currentPreference];
-            if (defaultPreferences[currentPreference] === true) {
+            if (defaultPreferences[currentPreference] === false) {
                 currentCheckbox.parentNode.className = '';
             }
         }
@@ -417,6 +407,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
         var checkboxValue,
             checkboxValues = {},
             currentCheckbox,
+            i,
             numberOfCheckboxes = elements.checkboxes.length;
         
         for (i = 0; i < numberOfCheckboxes; i += 1) {

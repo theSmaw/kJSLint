@@ -1,4 +1,4 @@
-/*global assertEquals, assertFunction, assertNoException, assertObject, assertTrue, setupFunctions, TestCase, window*/
+/*global assertEquals, assertFunction, assertNoException, assertNotEquals, assertObject, assertTrue, setupFunctions, TestCase, window*/
 
 TestCase('testKJSlint.Panels.Options.View.getCheckboxValues', {
     
@@ -94,9 +94,14 @@ TestCase('testKJSlint.Panels.Options.View.handleEvent', {
 
 TestCase('testKJSlint.Panels.Options.View.putCheckboxesInCustomMode', {
     
-    setUp : function () {},
+    setUp : function () {
+        setupFunctions.createMarkupForCommandPanel();
+        setupFunctions.createMarkupForOptionsPanel();
+    },
     
-    tearDown : function () {},
+    tearDown : function () {
+        document.getElementsByTagName('body')[0].innerHTML = '';
+    },
     
     'test KJSLINT.Panels.Options.View.putCheckboxesInCustomMode is a function' : function () {
         assertFunction(window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInCustomMode);
@@ -107,6 +112,22 @@ TestCase('testKJSlint.Panels.Options.View.putCheckboxesInCustomMode', {
         assertNoException(function () {
             window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInCustomMode({});
         });
+    },
+    
+    'test KJSLINT.Panels.Options.View.putCheckboxesInCustomMode reveals hidden checkboxes' : function () {        
+        document.getElementById('fragment').parentNode.className = 'hidden';
+        window.extensions.KJSLINT.Panels.Options.View.handleEvent();
+        window.extensions.KJSLINT.Panels.Options.Controller.fileSwitched({
+            originalTarget : {
+                document : {
+                    file : {
+                        URI : 'testPutInDefaultModeFile'
+                    }
+                }
+            }
+        });
+        window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInCustomMode();
+        assertNotEquals('hidden', document.getElementById('fragment').parentNode.className);
     }
 });
 

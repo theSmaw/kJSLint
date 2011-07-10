@@ -207,7 +207,7 @@ window.extensions.KJSLINT.Page.Controller = (function () {
         fileClosed              : fileClosed,
         fileSaved               : fileSaved,
         fileSwitched            : fileSwitched,
-        jumpToLocationInFile              : jumpToLocationInFile,
+        jumpToLocationInFile    : jumpToLocationInFile,
         menuOptionsClicked      : menuOptionsClicked,
         getPathOfCurrentFile    : getPathOfCurrentFile,
         run                     : run

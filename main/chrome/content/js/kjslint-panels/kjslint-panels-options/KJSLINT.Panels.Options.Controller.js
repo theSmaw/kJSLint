@@ -66,13 +66,14 @@ window.extensions.KJSLINT.Panels.Options.Controller = (function () {
      */
     function determineMode() {
         var allTestedPreferencesInDefaultState = true,
+            defaultPreferences = getDefaultPreferences(),
             preference,
             preferenceUnderTest;
         
         for (preference in currentFilePreferences) {
             if (currentFilePreferences.hasOwnProperty(preference)) {
-                preferenceUnderTest = currentFilePreferences;
-                if ((typeof(preferenceUnderTest) === 'boolean') && (preferenceUnderTest !== CONSTANTS.defaultPreferences[preference])) {
+                preferenceUnderTest = currentFilePreferences[preference];
+                if ((typeof(preferenceUnderTest) === 'boolean') && (preferenceUnderTest !== defaultPreferences[preference])) {
                     allTestedPreferencesInDefaultState = false;
                     
                     break;
@@ -161,6 +162,7 @@ window.extensions.KJSLINT.Panels.Options.Controller = (function () {
      */
     function updatePreference(preference, value) {
         currentFilePreferences[preference] = value;
+        window.extensions.KJSLINT.Panels.Options.Data.setPreferencesForFile(currentFilePath, currentFilePreferences);
     }
     
     /**

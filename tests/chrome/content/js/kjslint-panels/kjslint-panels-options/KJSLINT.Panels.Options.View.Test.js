@@ -199,6 +199,31 @@ TestCase('testKJSlint.Panels.Options.View.putCheckboxesInDefaultMode', {
         });
         window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode();
         assertEquals(0, document.getElementById('kjslint2_radiogroup_presets').selectedIndex);
+    },
+    
+    'test KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode updates the file preferences object to contain default preferences' : function () {        
+        window.extensions.KJSLINT.Panels.Options.View.handleEvent();
+        window.extensions.KJSLINT.Panels.Options.Controller.fileSwitched({
+            originalTarget : {
+                document : {
+                    file : {
+                        URI : 'testPutInDefaultModeUpdatesPreferences'
+                    }
+                }
+            }
+        });
+        window.extensions.KJSLINT.Panels.Options.Controller.updatePreference('strict', false);
+        window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode();
+        window.extensions.KJSLINT.Panels.Options.Controller.fileSwitched({
+            originalTarget : {
+                document : {
+                    file : {
+                        URI : 'testPutInDefaultModeUpdatesPreferences'
+                    }
+                }
+            }
+        });
+        assertEquals(true, document.getElementById('strict').checked);
     }
 });
 

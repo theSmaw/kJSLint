@@ -129,7 +129,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
      * @private
      */
     function indentationInputUpdated() {
-        window.extensions.KJSLINT.Options.Panel.updatePreference('indent', parseInt(elements.indentationInput.value, 10));
+        window.extensions.KJSLINT.Panels.Options.Controller.updatePreference('indent', parseInt(elements.indentationInput.value, 10));
     }
     
     /**
@@ -149,7 +149,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
      * @private
      */
     function maxerrInputUpdated() {
-        window.extensions.KJSLINT.Options.Panel.updatePreference('maxerr', parseInt(elements.maxerrInput.value, 10));
+        window.extensions.KJSLINT.Panels.Options.Controller.updatePreference('maxerr', parseInt(elements.maxerrInput.value, 10));
     }
     
     /**
@@ -169,7 +169,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
      * @private
      */
     function maxlenInputUpdated() {
-        window.extensions.KJSLINT.Options.Panel.updatePreference('maxlen', parseInt(elements.maxlenInput.value, 10));
+        window.extensions.KJSLINT.Panels.Options.Controller.updatePreference('maxlen', parseInt(elements.maxlenInput.value, 10));
     }
     
     /**
@@ -189,7 +189,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
      * @private
      */
     function predefInputUpdated() {
-        window.extensions.KJSLINT.Options.Panel.updatePreference('predef', elements.predefInput.value.split(' ').join('').split(','));
+        window.extensions.KJSLINT.Panels.Options.Controller.updatePreference('predef', elements.predefInput.value.split(' ').join('').split(','));
     }
         
     /**
@@ -331,10 +331,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
             currentCheckbox = elements.checkboxes[i];
             currentPreference = currentCheckbox.id;               
             currentCheckbox.checked = defaultPreferences[currentPreference];
-            
-            // not sure about the next line!
-            //prefsObject[currentPath][thePref] = options[thePref];
-            
+            window.extensions.KJSLINT.Panels.Options.Controller.updatePreference(currentPreference, defaultPreferences[currentPreference]);
             if (defaultPreferences[currentPreference] === false) {
                 currentCheckbox.parentNode.className = 'hidden';
             }

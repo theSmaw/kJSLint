@@ -42,6 +42,10 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
         mode : {
             customMode          : 'custom',
             defaultMode         : 'default'
+        },
+        modeSelectedIndex : {
+            customMode          : 1,
+            defaultMode         : 0 
         }
     };
     
@@ -259,13 +263,23 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
     }
     
     /**
-     * Changes the mode heading
+     * Changes the mode heading.
      *
      * @private
-     * @param value {string} String for the heading
+     * @param {string} value String for the heading
      */
     function updateModeHeading(value) {
         elements.modeHeading.setAttribute('label', CONSTANTS.headings.mode.customMode);
+    }
+    
+    /**
+     * Changes the mode radio controls.
+     *
+     * @private
+     * @param {number} value 1 to put custom mode radio in selected state, 2 to select default mode radio control
+     */
+    function updateModeRadio(value) {
+        elements.modeRadios.selectedIndex = value;
     }
     
     /**
@@ -283,6 +297,7 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
             numberOfCheckboxes = elements.checkboxes.length;
         
         updateModeHeading(CONSTANTS.headings.mode.customMode);
+        updateModeRadio(CONSTANTS.modeSelectedIndex.customMode);
         for (i = 0; i < numberOfCheckboxes; i += 1) {
             currentCheckbox = elements.checkboxes[i];
             currentPreference = currentCheckbox.id;
@@ -311,11 +326,11 @@ window.extensions.KJSLINT.Panels.Options.View = (function () {
 
         
         updateModeHeading(CONSTANTS.headings.mode.defaultMode); 
+        updateModeRadio(CONSTANTS.modeSelectedIndex.defaultMode);
         for (i = 0; i < numberOfCheckboxes; i += 1) {
             currentCheckbox = elements.checkboxes[i];
             currentPreference = currentCheckbox.id;               
             currentCheckbox.checked = defaultPreferences[currentPreference];
-            
             
             // not sure about the next line!
             //prefsObject[currentPath][thePref] = options[thePref];

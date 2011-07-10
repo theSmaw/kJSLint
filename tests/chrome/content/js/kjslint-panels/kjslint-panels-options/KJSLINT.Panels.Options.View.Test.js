@@ -128,6 +128,22 @@ TestCase('testKJSlint.Panels.Options.View.putCheckboxesInCustomMode', {
         });
         window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInCustomMode();
         assertNotEquals('hidden', document.getElementById('fragment').parentNode.className);
+    },
+    
+    'test KJSLINT.Panels.Options.View.putCheckboxesInCustomMode selects the custom mode radio' : function () {        
+        document.getElementById('kjslint2_radiogroup_presets').selectedIndex = 0;
+        window.extensions.KJSLINT.Panels.Options.View.handleEvent();
+        window.extensions.KJSLINT.Panels.Options.Controller.fileSwitched({
+            originalTarget : {
+                document : {
+                    file : {
+                        URI : 'testPutInDefaultModeRadios'
+                    }
+                }
+            }
+        });
+        window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInCustomMode();
+        assertEquals(1, document.getElementById('kjslint2_radiogroup_presets').selectedIndex);
     }
 });
 
@@ -167,6 +183,22 @@ TestCase('testKJSlint.Panels.Options.View.putCheckboxesInDefaultMode', {
         });
         window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode();
         assertTrue(document.getElementById('eqeqeq').checked);
+    },
+    
+    'test KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode selects the custom mode radio' : function () {        
+        document.getElementById('kjslint2_radiogroup_presets').selectedIndex = 1;
+        window.extensions.KJSLINT.Panels.Options.View.handleEvent();
+        window.extensions.KJSLINT.Panels.Options.Controller.fileSwitched({
+            originalTarget : {
+                document : {
+                    file : {
+                        URI : 'testPutInDefaultModeRadios'
+                    }
+                }
+            }
+        });
+        window.extensions.KJSLINT.Panels.Options.View.putCheckboxesInDefaultMode();
+        assertEquals(0, document.getElementById('kjslint2_radiogroup_presets').selectedIndex);
     }
 });
 

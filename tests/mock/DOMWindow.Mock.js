@@ -1,0 +1,4 @@
+var DOMWindow = {
+    
+    setCursor : function () {}
+};
